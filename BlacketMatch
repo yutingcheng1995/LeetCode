@@ -1,0 +1,28 @@
+import java.util.Stack;
+class Solution {
+    public boolean isValid(String str) {
+		char[] arrstr = str.toCharArray();//此处仍可以优化为在for中进行string到char的转化，只需要一个char空间
+		Stack<Character> stack = new Stack<>();
+		for(int i = 0; i < arrstr.length; i++){
+			if(arrstr[i] == '[' || arrstr[i] == '{' ||arrstr[i] == '('){
+				stack.push(arrstr[i]);
+			}
+      else{//此处一定要进行空判断
+        if(stack.isEmpty()){
+            return false;
+        }
+        char c = stack.pop();
+			  if(arrstr[i] == ']'&&'['!=c){
+					return false;
+			  }
+			  if(arrstr[i] == '}'&&'{'!=c){
+					return false;
+			  }
+			  if(arrstr[i] == ')'&&'('!=c){
+					return false;
+			  }
+      }
+		}
+		return stack.isEmpty();
+   }
+}
