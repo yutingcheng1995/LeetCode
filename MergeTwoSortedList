@@ -1,0 +1,27 @@
+/**
+递归实现归并两个有序链表
+- 每一次递归返回l1与l2的要插入新链表的子链表的头节点；
+- cur始终指向链表的新插入的节点
+- cur.next则是递归调用的结果；
+*/
+class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode cur = null;
+        if(l1 == null){
+            return l2;
+        }
+        else if(l2 == null){
+            return l1;
+        }
+        if(l1.val <= l2.val){
+            cur = new ListNode(l1.val); 
+            cur.next = mergeTwoLists(l1.next, l2);
+        }
+        else{
+            cur = new ListNode(l2.val);
+            cur.next = mergeTwoLists(l1, l2.next);
+        }
+        return cur;
+        
+    }
+}
