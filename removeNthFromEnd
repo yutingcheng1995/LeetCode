@@ -1,0 +1,26 @@
+/**
+删除倒数第n个节点；
+创建一个空的头节点，为了指向删除元素的前一个元素；
+创建两个引用，分别指向一个元素以及与该元素相隔n个位置的元素；
+当第二个引用遍历至尾节点时，此时第一个引用指向待删除节点的前一个节点
+*/
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head == null){
+            return null;
+        }
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode first = dummy;//该节点指向被删除元素的前一个节点
+        ListNode second = dummy;//指向与第一个元素相隔n的节点
+        for(int i = 0; i < n; i++){
+            second = second.next;
+        }
+        while(second.next!=null){
+            first = first.next;
+            second = second.next;
+        }
+        first.next = first.next.next;
+        return dummy.next;//
+    }
+}
