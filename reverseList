@@ -1,0 +1,19 @@
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        //ListNode p = head;
+        if(head == null || head.next == null){
+            return head;
+        }//判断特殊情况
+        ListNode pre = head; //初始值
+        ListNode cur = head.next; //初始值
+        //ListNode tail = newHead;
+        while(cur!=null){
+           ListNode temp = cur.next;//保存下一个更新的值
+            cur.next = pre;//链表转向
+            pre = cur;//更新pre
+            cur = temp;//更新cur
+        }
+        head.next = null;
+        return pre;
+    }
+}
