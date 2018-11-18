@@ -1,0 +1,22 @@
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if(head == null){
+            return null;
+        }//如果之后涉及到对head的操作，之前一定要进行空判断
+        ListNode first = head;
+        ListNode second = head.next;
+        //设置两个指针，一个指向当前元素，一个指向与当前元素不同的第一个元素
+        while(second != null){
+            if(first.val == second.val){
+                second = second.next;
+            }
+            else{
+                first.next = second;
+                first = second;
+                second = second.next;
+            }
+        }
+        first.next = second;//很重要
+        return head;
+    }
+}
