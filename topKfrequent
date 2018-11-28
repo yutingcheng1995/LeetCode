@@ -1,0 +1,69 @@
+/**
+输出数组中出现频率最高的k个元素：
+- 使用优先队列
+1.将数组中的元素存入TreeMap，记录每个元素以及出现的频次；
+2.维护一个大小为k的优先队列（java中底层默认最小堆）
+遍历TreeMap
+   - 将TreeMap中前k个元素存进优先队列
+   - 将TreeMap中之后的每一个元素与TreeMap的堆首进行比较，优先级比现有的堆首高的话，删除堆首，将当前元素插入；
+
+优先队列中的优先级：
+基本数据类型：默认自然比较
+自定义对象：
+- 让对象的类实现Comparable<该类的类型>接口，实现compareTo(T o),定义当前对象与传入对象的比较规则
+  通常，对象分为两种：自定义、javaAPI定义
+   - 自定义：自己定义比较规则
+   - java类中已有默认的排序方法，例如String为字典序比较
+- 自定义对象比较类，定义比较规则，实现Comparator接口，实现compare(T o1, T o2)，比较传入的两个参数；
+   - 为集合中存储的对象，自定义比较规则
+   - 通常需要单独实现类，或者作为匿名类传入集合的构造方法中；
+- 共同点：
+  - 返回值均为int型，-1，0，1分别表示小于，等于，大于
+  
+  Java 中的两种排序方式：
+    - Comparable 自然排序。（实体类实现）
+    - Comparator 是定制排序。（无法修改实体类时，直接在调用方创建）
+      同时存在时采用 Comparator（定制排序）的规则进行比较。
+
+    - 对于一些普通的数据类型（比如 String, Integer, Double…），它们默认实现了Comparable 接口，实现了 compareTo 方法，我们可以直接使用。
+    - 而对于一些自定义类，它们可能在不同情况下需要实现不同的比较策略，我们可以新创建 Comparator 接口，然后使用特定的 Comparator 实现进行比较。
+*/
+class Solution{
+    public List<Integer> topKFrequent(int[] nums, int k){
+        TreeMap<Integer,Integer> map = new TreeMap<>();
+        for(int i = 0; i < nums.length; i++){
+            if(map.containsKey(nums[i])){
+                map.put(nums[i],map.get(nums[i]) + 1);
+            }
+            else{
+                map.put(nums[i],1);
+            }
+            
+        }
+        
+        PriorityQueue<Integer> pq= new PriorityQueue<>(new Comparator<Integer>(){
+            public int compare(Integer a, Integer b){
+                return map.get(a)-map.get(b);
+            }
+        });
+        for(int key : map.keySet()){
+            if(pq.size() < k){
+                //System.out.println(key+ " "+map.get(key));
+                pq.add(key);
+            }
+            else if(map.get(key) > map.get(pq.peek())){
+                   // System.out.println(key +" "+ map.get(key) +" "+ pq.peek().freq);
+                    pq.remove();
+                    pq.add(key);
+                
+            }
+        }
+        
+        LinkedList<Integer> res = new LinkedList<>();
+        while(!pq.isEmpty()){
+            res.add(pq.remove());
+        }
+        return res;
+    }
+    
+}
