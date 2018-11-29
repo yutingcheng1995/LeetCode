@@ -1,18 +1,39 @@
+/**
+链表逆序
+- 判断特殊情况：当前链表为空；
+- 设置虚拟头节点
+- 设置2个特殊节点：
+   - pre：始终指向翻转的前一个节点
+   - cur：当前翻转节点
+1.初始化pre、cur，pre指向虚拟头节点，cur指向链表头
+2.进行翻转（直到cur指向链表最后一个元素）
+     - 设置临时变量存储当前cur.next;
+     - 使的当前节点的下一个位置为pre；
+     - 更新pre和cur，pre指向当前节点，cur指向temp
+3.设置翻转链表尾部head.next = null；
+4.返回节点pre；
+ 
+*/
 class Solution {
     public ListNode reverseList(ListNode head) {
-        //ListNode p = head;
-        if(head == null || head.next == null){
-            return head;
-        }//判断特殊情况
-        ListNode pre = head; //初始值
-        ListNode cur = head.next; //初始值
-        //ListNode tail = newHead;
-        while(cur!=null){
-           ListNode temp = cur.next;//保存下一个更新的值
-            cur.next = pre;//链表转向
-            pre = cur;//更新pre
-            cur = temp;//更新cur
+        
+        if(head == null){
+            return null;
         }
+        
+        ListNode dummyHead = new ListNode(0);
+        dummyHead.next = head;
+        
+        ListNode pre = dummyHead;
+        ListNode cur = head;
+        
+        while(cur != null){
+            ListNode temp = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = temp;
+        }
+        
         head.next = null;
         return pre;
     }
